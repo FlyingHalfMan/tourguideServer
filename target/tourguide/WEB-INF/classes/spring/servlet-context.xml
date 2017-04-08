@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd">
+
+
+    <!--<import resource="spring-mongodb.xml"/>-->
+    <!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+    <context:component-scan base-package="cn.programingmonkey" />
+    <mvc:annotation-driven />
+
+    <!-- transaction-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    <tx:advice id="transactionInterceptor">
+        <tx:attributes>
+            <tx:method name="add*"/>
+            <tx:method name="del*"/>
+            <tx:method name="up*"/>
+            <tx:method name="persist"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- EntityManagerFactory-->
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean"/>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
+    </bean>
+
+    <bean name="openEntityManagerInViewInterceptor"
+          class="org.springframework.orm.jpa.support.OpenEntityManagerInViewInterceptor">
+        <property name="entityManagerFactory">
+            <ref bean="entityManagerFactory" />
+        </property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="openEntityManagerInViewInterceptor" />
+            </list>
+        </property>
+    </bean>
+
+
+    <!-- 多部分文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="104857600" />
+        <property name="maxInMemorySize" value="4096" />
+        <property name="defaultEncoding" value="UTF-8"></property>
+    </bean>
+
+    <!-- 拦截器-->
+
+        <mvc:interceptors>
+
+            <!--验证拦截器-->
+            <mvc:interceptor>
+                <mvc:mapping path="/user/*"/>
+                <mvc:mapping path="/post/delete/**"/>
+                <bean class="cn.programingmonkey.Interceptor.Authenticate" />
+            </mvc:interceptor>
+            <!--授权拦截器-->
+            <!--<mvc:interceptor>-->
+                <!--<mvc:mapping path="/*"/>-->
+                <!--<mvc:mapping path="/**/delete/**"/>-->
+                <!--<bean class="cn.programingmonkey.Interceptor.Authorization"></bean>-->
+            <!--</mvc:interceptor>-->
+        </mvc:interceptors>
+
+
+     <!--shiro -->
+
+    <!--<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">-->
+        <!--<property name="securityManager" ref="securityManager" />-->
+        <!--<property name="loginUrl" value="/html/login.html" />-->
+        <!--<property name="successUrl" value="/user/list" />-->
+        <!--<property name="unauthorizedUrl" value="403" />-->
+        <!--<property name="filterChainDefinitions">-->
+            <!--<value>-->
+                <!--/login = anon-->
+                <!--/login/** = anon-->
+                <!--/test = anon-->
+                <!--/regits = anon-->
+                <!--/regits/verifycode/** = anon-->
+                <!--/regist/** = anon-->
+                <!--/word = anon-->
+                <!--/user/** = authc-->
+                <!--/role/edit/* = perms[role:edit]-->
+                <!--/role/save = perms[role:edit]-->
+                <!--/role/list = perms[role:view]-->
+                <!--/** = authc-->
+                <!--/user/** = anon-->
+                <!--/Resource =anon-->
+                <!--/html** = anon-->
+            <!--</value>-->
+        <!--</property>-->
+    <!--</bean>-->
+
+    <!--<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">-->
+        <!--<property name="realm" ref="myRealm" />-->
+        <!--<property name="cacheManager" ref="cacheManager"/>-->
+
+    <!--</bean>-->
+    <!--<bean id="myRealm" class="cn.programingmonkey.Security.SecurityRealm" />-->
+    <!--<aop:config proxy-target-class="true"/>-->
+    <!--<bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />-->
+    <!--<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />-->
+
+</beans>
