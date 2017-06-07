@@ -85,7 +85,7 @@ public class LoginService {
         // 获取随机验证码
         String verifycode = EncryptUtil.getVerifyCode();
         // 短信服务发送验证码
-        SMSService.sendLoginVerifyCode(mobile,verifycode);
+       // SMSService.sendLoginVerifyCode(mobile,verifycode);
         // 将验证码写入到数据库中
         if(table == null) {
             VerifyCodeTable verifyCodeTable = new VerifyCodeTable(mobile, verifycode, VERIFYCODE_TYPE.VERIFYCODE_TYPE_LOGIN.getCode());
@@ -117,8 +117,14 @@ public class LoginService {
         if (userTable == null)
             throw new UserException(USER_EXCEPTION_TYPE.USER_EXCEPTION_NOTFOUND);
 
+        if (userTable.getSecurityToken() == null || userTable.getSecurityToken().length()  < 1)
+            throw new PasswordException(PASSWORD_EXCEPTION_TYPE.ASSWORD_EXCEPTION_PASSWORD_NOT_SET);
+
         if (!userTable.getSecurityToken().equals(EncryptUtil.encrypt(userTable.getSalt(),password)))
             throw new PasswordException(PASSWORD_EXCEPTION_TYPE.PASSWORD_EXCEPTION_WRONG);
+
+        userTable.setExpiredDate(Utils.getTimeWithDuration(5 * 24 * 60 * 60 * 1000));
+        userDao.update(userTable);
 
         return new SecurityToken(userTable);
     }

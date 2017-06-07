@@ -1,11 +1,12 @@
 package cn.programingmonkey.Bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by cai on 30/01/2017.
  */
-public class Success {
+public class Success  implements Serializable {
 
     private int code;
     private String message;

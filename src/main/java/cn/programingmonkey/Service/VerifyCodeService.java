@@ -1,8 +1,8 @@
 package cn.programingmonkey.Service;
 
 import cn.programingmonkey.Dao.VerifyCodeDao;
-import cn.programingmonkey.Exception.type.VERIFYCODE_EXCEPTION_ENUM;
 import cn.programingmonkey.Exception.VerifyCodeException;
+import cn.programingmonkey.Exception.type.VERIFYCODE_EXCEPTION_TYPE;
 import cn.programingmonkey.Table.VerifyCodeTable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,8 +30,7 @@ public class VerifyCodeService {
           // 检查验证码是否发送过于频繁，如果是抛出异常
           long currentTime = new Date().getTime();
           if (currentTime - table.getSendDate().getTime() < 60 * 1000)
-              throw new VerifyCodeException(VERIFYCODE_EXCEPTION_ENUM.VERIFYCODE_EXCEPTION_OFTEN.getCode()
-                      , VERIFYCODE_EXCEPTION_ENUM.VERIFYCODE_EXCEPTION_OFTEN.getMsg());
+              throw new VerifyCodeException(VERIFYCODE_EXCEPTION_TYPE.VERIFYCODE_EXCEPTION_OFTEN);
 
 
           table.setVerifycode(content);
@@ -67,16 +66,16 @@ public class VerifyCodeService {
 
         // 没有找到
         if (verifyCodeTable == null)
-            throw new VerifyCodeException(VERIFYCODE_EXCEPTION_ENUM.VERIFYCODE_EXCEPTION_NOTFOUND.getCode()
-                                         ,VERIFYCODE_EXCEPTION_ENUM.VERIFYCODE_EXCEPTION_NOTFOUND.getMsg());
+            throw new VerifyCodeException(VERIFYCODE_EXCEPTION_TYPE.VERIFYCODE_EXCEPTION_NOTFOUND.getCode()
+                                         ,VERIFYCODE_EXCEPTION_TYPE.VERIFYCODE_EXCEPTION_NOTFOUND.getMsg());
         // 验证码错误
         if (!verifyCodeTable.getVerifycode().equals(verifyCode))
-            throw new VerifyCodeException(VERIFYCODE_EXCEPTION_ENUM.VERIFYCODE_EXCEPTION_WRONG.getCode()
-                                         ,VERIFYCODE_EXCEPTION_ENUM.VERIFYCODE_EXCEPTION_WRONG.getMsg());
+            throw new VerifyCodeException(VERIFYCODE_EXCEPTION_TYPE.VERIFYCODE_EXCEPTION_WRONG.getCode()
+                                         ,VERIFYCODE_EXCEPTION_TYPE.VERIFYCODE_EXCEPTION_WRONG.getMsg());
         // 验证码失效
         if ( verifyCodeTable.getExpiredDate().getTime()-new Date().getTime() > 5 *60 *1000 )
-            throw new VerifyCodeException(VERIFYCODE_EXCEPTION_ENUM.VERIFYCODE_EXCEPTION_USERLESS.getCode()
-                                         ,VERIFYCODE_EXCEPTION_ENUM.VERIFYCODE_EXCEPTION_USERLESS.getMsg());
+            throw new VerifyCodeException(VERIFYCODE_EXCEPTION_TYPE.VERIFYCODE_EXCEPTION_USERLESS.getCode()
+                                         ,VERIFYCODE_EXCEPTION_TYPE.VERIFYCODE_EXCEPTION_USERLESS.getMsg());
         return true;
     }
 

@@ -86,11 +86,13 @@ public class RegistService {
             throw new RegistException(REGIST_EXCEPTION_TYPE.REGIST_EXCEPTION_VERIFYCODE_NOT_SEND);
 
         // 验证码失效
-        if (verifyCodeTable !=null && verifyCodeTable.getExpiredDate().before(new Date()))
+        if (verifyCodeTable !=null && verifyCodeTable.getExpiredDate()!=null && verifyCodeTable.getExpiredDate().before(new Date()))
             throw new RegistException(REGIST_EXCEPTION_TYPE.REGIST_EXCEPTION_VERIFYCODE_EXPIRED);
 
         String userId = EncryptUtil.userId();
         UserTable userTable =new UserTable.Build(userId,mobile)
+                                          .registDate(Utils.getCurrentTime())
+                                          .expiredDate(Utils.getTimeWithDuration(7 * 24 * 60 * 60 * 1000))
                                           .name("用户"+userId)
                                           .salt(EncryptUtil.salt())
                                           .gender("保密")

@@ -1,9 +1,11 @@
 package cn.programingmonkey.Bean;
 
+import java.io.Serializable;
+
 /**
  * Created by cai on 30/01/2017.
  */
-public class Error {
+public class Error implements Serializable {
 
     private int code;
     private String message;

@@ -2,9 +2,6 @@ package cn.programingmonkey.Service;
 
 import cn.programingmonkey.Constant.Constant;
 import cn.programingmonkey.Exception.InvalidException;
-import cn.programingmonkey.Utils.Sift.ImageTransform;
-import cn.programingmonkey.Utils.Sift.MyPoint;
-import cn.programingmonkey.Utils.Sift.utility.Image_Utility;
 import com.aliyun.oss.OSSClient;
 import com.aliyun.oss.model.ObjectMetadata;
 import org.apache.commons.io.FileUtils;
@@ -30,19 +27,6 @@ public class ImageService {
 //    在这里进行图片处理服务，包括指纹算法和SIFT算法
 
 
-//    public static void  getSIFT(String fileName){
-//        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-//        Mat mat = Highgui.imread(fileName);
-//        Mat desc = new Mat();
-//        FeatureDetector fd = FeatureDetector.create(FeatureDetector.SIFT);
-//        MatOfKeyPoint mkp =new MatOfKeyPoint();
-//        fd.detect(mat, mkp);
-//        DescriptorExtractor de = DescriptorExtractor.create(DescriptorExtractor.SIFT);
-//        de.compute(mat,mkp,desc );//提取sift特征
-//        System.out.println(desc.cols());
-//        System.out.println(desc.rows());
-//    }
-
     public static String fingerPrint(File  file) throws IOException {
 
          int width  = 8;
@@ -52,7 +36,7 @@ public class ImageService {
         if (file == null){
             System.out.println("file is null");
         }
-        InputStream is = new FileInputStream(file);
+        InputStream is = new FileInputStream("/resources/tourguide/images/"+file);
         BufferedImage bi = ImageIO.read(is);
 
         double sx = (double) width/bi.getWidth();
@@ -159,7 +143,12 @@ public class ImageService {
         File file = new File(basePath);
        // BufferedImage  shrink = shrinkImage(file,16,16);
         // 文件夹不存在创建文件夹
-        if (!file.exists()) {file.mkdirs();}
+        if (!file.exists()) {
+            boolean tf = file.mkdirs();
+            if (tf == false){
+                System.out.println("文件创建失败");
+            }
+        }
         // 创建保存文件
 
         // 将文件保存到本地文件夹中
@@ -168,7 +157,6 @@ public class ImageService {
         commonsMultipartFile.getInputStream().close();
 
         System.out.println("end" + new Date().getTime());
-        System.gc();
         return  image;
     }
 
@@ -232,7 +220,7 @@ public class ImageService {
             meta.setContentType(Constant.OSS_CONTENTTYPE_JPEG);
         else meta.setContentType(Constant.OSS_CONTENTTYPE_PNG);
         meta.setLastModified(new Date());
-        String key = "fudatour/" + imageName +"jpg";
+        String key = "fudatour/" + imageName +".jpg";
         OSSClient client = null;
         try {
             client = new OSSClient(endpoint, Constant.OSS_ACCESSKEYID, Constant.OSS_SECRETKEYID);
@@ -248,105 +236,9 @@ public class ImageService {
         System.out.println("upload to server duration " + (new Date().getTime()-start));
     }
 
-    /**
-     * 获取SIFT算法的特征值
-     * @param image
-     * @return
-     */
-    public static List<MyPoint> getSIFTCharacteristicValue(File image) throws IOException {
-
-        String name =  image.getName();
-        String grayDir = "/resources/tourguide/images/gray/";                   // 保存灰度化后的文件
-        String vectorDir = "/resources/tourguide/images//vector/";              //  保存获取特征值后的文件
-
-        // 将图片进行灰度化，去除掉光和其他外因的影响
-        BufferedImage bufferedImage =  grayTran(image);
-        // 将灰度化后的文件保存到本地
-        System.out.println("begin write" +new Date().getTime());
-        ImageIO.write(bufferedImage,"JPG",new File(grayDir +name));
-        // 获取高斯金字塔
-        System.out.println("end write" +new Date().getTime());
-        HashMap<Integer,double[][]> result= ImageTransform.getGaussPyramid(Image_Utility.imageToDoubleArray(bufferedImage), 20, 3,1.6);
-        HashMap<Integer,double[][]> dog=ImageTransform.gaussToDog(result, 6);
-        // 获取特征值
-        HashMap<Integer, java.util.List<MyPoint>> keyPoints=ImageTransform.getRoughKeyPoint(dog,6);
-        // 描绘特征向量
-        keyPoints=ImageTransform.filterPoints(dog, keyPoints, 10,0.03);
-        bufferedImage = ImageTransform.drawPoints(result,keyPoints);
-        // 将图片保存到本地
-        ImageIO.write(bufferedImage,"JPG",new File(vectorDir+name));
-
-        //获取特征向量
-        List<MyPoint> v1=ImageTransform.getCharacterVectors(bufferedImage);
-        for(MyPoint point : v1){ System.out.println("point " +point.toString()); System.out.println("size" + v1.size());}
-
-        return v1;
-    }
-
-    @Test
-    public void getSIFTCharacteristicValueTest() throws IOException {
-        long begintime = new Date().getTime();
-//        String filePath = System.getProperty("user.dir");
-//        filePath +="/cn/programingmonkey/Resources/Images/test.jpg";
-        String filePath = "/Users/caihongfeng/Downloads/test.jpg";
-        BufferedImage bufferedImage = grayTran(new File(filePath));
-        ImageIO.write(bufferedImage,"JPG",new File("/Users/caihongfeng/Downloads/testGray.jpg"));
-
-        //获取高斯金字塔
-        HashMap<Integer,double[][]> result= ImageTransform.getGaussPyramid(Image_Utility.imageToDoubleArray(bufferedImage), 20, 3,1.6);
-        System.out.println(result);
-        HashMap<Integer,double[][]> dog=ImageTransform.gaussToDog(result, 6);
-        HashMap<Integer, java.util.List<MyPoint>> keyPoints=ImageTransform.getRoughKeyPoint(dog,6);
-        keyPoints=ImageTransform.filterPoints(dog, keyPoints, 10,0.03);
-        bufferedImage = ImageTransform.drawPoints(result,keyPoints);
-        ImageIO.write(bufferedImage,"JPG",new File("/Users/caihongfeng/Downloads/testGauss.jpg"));
-
-        //获取特征向量
-        List<MyPoint> v1=ImageTransform.getCharacterVectors(bufferedImage);
-        for(MyPoint point : v1){ System.out.println(point.toString()); System.out.println(v1.size());}
-
-
-        bufferedImage=Image_Utility.arrayToGreyImage(Image_Utility.open(Image_Utility.imageToArray(bufferedImage),20));
-        ImageIO.write(bufferedImage,"JPG",new File("/Users/caihongfeng/Downloads/testArrayToGrey.jpg"));
-        bufferedImage=Image_Utility.doubleArrayToGreyImage(dog.get(1));
-        ImageIO.write(bufferedImage,"JPG",new File("/Users/caihongfeng/Downloads/testDoubleArrayToGrey.jpg"));
-        System.out.println(new Date().getTime() - begintime);
-    }
-
-    private static BufferedImage grayTran(File file) {
-
-        BufferedImage bimg = null;
-        try {
-            System.out.println(file.getName());
-            bimg = ImageIO.read(file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        // 获取图片的宽高
-        int width = bimg.getWidth();
-        int height = bimg.getHeight();
-
-        BufferedImage targetImage =  new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);//BufferedImage.TYPE_BYTE_BINARY);
-
-        // 图片灰度化
-        for (int j = 0; j < height; j++) {
-            for (int i = 0; i < width; i++) {
-                int rgb = bimg.getRGB(i, j);
-                int c_red = (rgb >> 16) & 0xFF;
-                int c_green = (rgb >> 8) & 0xFF;
-                int c_blue = rgb & 0xFF;
-                int grayRGB = (int) (0.3 * c_red + 0.59 * c_green + 0.11 * c_blue);////�ҶȻ�
-                rgb = (255 << 24) | (grayRGB << 16) | (grayRGB << 8) | grayRGB;///�ҶȻ��ָ�
-                targetImage.setRGB(i, j, rgb);
-            }
-        }
-        bimg = null;
-        return targetImage;
-    }
 
 
     public static BufferedImage  shrinkImage(CommonsMultipartFile file,int height,int width) throws IOException {
-
 
         InputStream is = file.getInputStream();
         BufferedImage bi = ImageIO.read(is);
@@ -363,9 +255,5 @@ public class ImageService {
         g.dispose();
         is.close();
         return resultImage;
-
     }
-
-
-
 }

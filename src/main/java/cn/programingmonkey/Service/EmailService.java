@@ -28,7 +28,7 @@ public class EmailService {
             request.setToAddress(address);
             request.setSubject(subject);
             request.setHtmlBody(body);
-            SingleSendMailResponse httpResponse = client.getAcsResponse(request);
+            client.getAcsResponse(request);
             return;
         } catch (ServerException e) {
             e.printStackTrace();

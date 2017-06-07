@@ -3,6 +3,7 @@ package cn.programingmonkey.Exception.type;
 /**
  * Created by cai on 30/01/2017.
  */
+
 public enum  VERIFYCODE_TYPE {
 
     VERIFYCODE_TYPE_LOGIN(0,"登录"),
@@ -12,7 +13,7 @@ public enum  VERIFYCODE_TYPE {
     private int code;
     private String msg;
 
-     VERIFYCODE_TYPE(int code,String msg){
+    VERIFYCODE_TYPE(int code,String msg){
 
         this.code = code;
         this.msg =msg;

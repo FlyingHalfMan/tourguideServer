@@ -73,7 +73,7 @@ public class SMSService {
             request.setTemplateCode(tempelateCode.getDesc());
             request.setParamString("{'no':'"+content+"','name':"+ "'超级导游'}");
             request.setRecNum(mobile);
-            SingleSendSmsResponse httpResponse = client.getAcsResponse(request);
+            client.getAcsResponse(request);
             return;
         } catch (ServerException e) {
             e.printStackTrace();

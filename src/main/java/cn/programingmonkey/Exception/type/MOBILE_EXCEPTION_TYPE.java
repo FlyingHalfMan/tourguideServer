@@ -21,10 +21,6 @@ public enum  MOBILE_EXCEPTION_TYPE {
         return code;
     }
 
-    public void setCode(int code) {
-        this.code = code;
-    }
-
     public String getMsg() {
         return msg;
     }

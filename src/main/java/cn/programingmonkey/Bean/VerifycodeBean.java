@@ -1,9 +1,11 @@
 package cn.programingmonkey.Bean;
 
+import java.io.Serializable;
+
 /**
  * Created by cai on 31/01/2017.
  */
-public class VerifycodeBean {
+public class VerifycodeBean  implements Serializable {
 
     private String mobile;
     private String verifycode;

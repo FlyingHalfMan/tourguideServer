@@ -2,12 +2,13 @@ package cn.programingmonkey.Bean;
 
 import cn.programingmonkey.Table.UserTable;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by cai on 26/01/2017.
  */
-public class UserBean {
+public class UserBean  implements Serializable {
 
     private String  userId;         // 用户主键
     private String  userName;       // 用户昵称
@@ -66,7 +67,7 @@ public class UserBean {
 
 
     public Date getBirthDate() {
-        return birthDate;
+        return this.birthDate;
     }
 
     public void setBirthDate(Date birthDate) {

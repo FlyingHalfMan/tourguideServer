@@ -17,11 +17,11 @@ public class EncryptUtil {
     public static String  getVerifyCode(){
 
         Random random =new Random();
-        String verifyCode="";
+        StringBuffer buffer = new StringBuffer();
         for (int i = 0;i < 6;i++){
-            verifyCode+= numbers[random.nextInt(numbers.length)];
+            buffer.append(numbers[random.nextInt(numbers.length)]);
         }
-        return verifyCode;
+        return buffer.toString();
     }
 
     public static String encrypt(String salt,String password){
@@ -35,6 +35,11 @@ public class EncryptUtil {
 
     public static  String randomString(){
         return RandomStringUtils.randomAlphabetic(16);
+    }
+
+    // 获取一个随机长度的字符串
+    public static  String randomString(int len){
+        return RandomStringUtils.randomAlphabetic(len);
     }
 
     public static String salt(){

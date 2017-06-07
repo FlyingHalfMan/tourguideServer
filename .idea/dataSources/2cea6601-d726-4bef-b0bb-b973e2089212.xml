@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="TourGuide@localhost">
-  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.0">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.1">
     <root id="1"/>
     <schema id="2" parent="1" name="TourGuide">
       <Current>1</Current>
@@ -15,425 +15,573 @@
     <schema id="9" parent="1" name="supermarket"/>
     <schema id="10" parent="1" name="sys"/>
     <schema id="11" parent="1" name="CompusSecond"/>
-    <table id="12" parent="2" name="AuthorityChangLog"/>
-    <table id="13" parent="2" name="tg_classify"/>
-    <table id="14" parent="2" name="tg_history"/>
-    <table id="15" parent="2" name="tg_imageInfor"/>
-    <table id="16" parent="2" name="tg_post"/>
-    <table id="17" parent="2" name="tg_post_tg_imageInfor"/>
-    <table id="18" parent="2" name="tg_role"/>
-    <table id="19" parent="2" name="tg_scenery"/>
-    <table id="20" parent="2" name="tg_stepimages"/>
-    <table id="21" parent="2" name="tg_steps"/>
-    <table id="22" parent="2" name="tg_user"/>
-    <table id="23" parent="2" name="tg_verifycode"/>
-    <column id="24" parent="12" name="id">
+    <schema id="12" parent="1" name="ope"/>
+    <table id="13" parent="2" name="AuthorityChangLog"/>
+    <table id="14" parent="2" name="ImageInfor"/>
+    <table id="15" parent="2" name="PostImage"/>
+    <table id="16" parent="2" name="tg_classify"/>
+    <table id="17" parent="2" name="tg_collect"/>
+    <table id="18" parent="2" name="tg_history"/>
+    <table id="19" parent="2" name="tg_imageInfor"/>
+    <table id="20" parent="2" name="tg_like"/>
+    <table id="21" parent="2" name="tg_post"/>
+    <table id="22" parent="2" name="tg_post_tg_imageInfor"/>
+    <table id="23" parent="2" name="tg_role"/>
+    <table id="24" parent="2" name="tg_scenery"/>
+    <table id="25" parent="2" name="tg_stepimages"/>
+    <table id="26" parent="2" name="tg_steps"/>
+    <table id="27" parent="2" name="tg_user"/>
+    <table id="28" parent="2" name="tg_verifycode"/>
+    <column id="29" parent="13" name="id">
       <Position>1</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="25" parent="12" name="authorityId">
+    <column id="30" parent="13" name="authorityId">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="26" parent="12" name="date">
+    <column id="31" parent="13" name="date">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="27" parent="12" name="executerId">
+    <column id="32" parent="13" name="executerId">
       <Position>4</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="28" parent="12" name="other">
+    <column id="33" parent="13" name="other">
       <Position>5</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="29" parent="12" name="userId">
+    <column id="34" parent="13" name="userId">
       <Position>6</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <key id="30" parent="12" name="PRIMARY">
+    <key id="35" parent="13" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="31" parent="13" name="id">
-      <Position>1</Position>
-      <DataType>bigint(20)|0</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
-    </column>
-    <column id="32" parent="13" name="classId">
-      <Position>2</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="33" parent="13" name="modelUrl">
-      <Position>3</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="34" parent="13" name="name">
-      <Position>4</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="35" parent="13" name="vedioUrl">
-      <Position>5</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="36" parent="13" name="webUrl">
-      <Position>6</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <key id="37" parent="13" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="38" parent="14" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="39" parent="14" name="date">
-      <Position>2</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="40" parent="14" name="postId">
-      <Position>3</Position>
-      <DataType>varchar(255)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="41" parent="14" name="userId">
-      <Position>4</Position>
-      <DataType>varchar(255)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <key id="42" parent="14" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="43" parent="15" name="id">
-      <Position>1</Position>
-      <DataType>int(11)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="44" parent="15" name="coordinate">
-      <Position>2</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="45" parent="15" name="descrition">
-      <Position>3</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="46" parent="15" name="imageId">
-      <Position>4</Position>
-      <DataType>varchar(255)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="47" parent="15" name="location">
-      <Position>5</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="48" parent="15" name="postDate">
-      <Position>6</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="49" parent="15" name="userId">
-      <Position>7</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="50" parent="15" name="pHash">
-      <Position>8</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="51" parent="15" name="sift">
-      <Position>9</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="52" parent="15" name="classId">
-      <Position>10</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <index id="53" parent="15" name="UK_qojuuqp0g20x284yox79esdeq">
-      <ColNames>imageId</ColNames>
-      <Unique>1</Unique>
-    </index>
-    <key id="54" parent="15" name="PRIMARY">
-      <ColNames>id</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <key id="55" parent="15" name="UK_qojuuqp0g20x284yox79esdeq">
-      <ColNames>imageId</ColNames>
-      <UnderlyingIndexName>UK_qojuuqp0g20x284yox79esdeq</UnderlyingIndexName>
-    </key>
-    <column id="56" parent="16" name="id">
+    <column id="36" parent="14" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="57" parent="16" name="collection">
+    <column id="37" parent="14" name="imageId">
       <Position>2</Position>
-      <DataType>bigint(20)|0</DataType>
-      <NotNull>1</NotNull>
+      <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="58" parent="16" name="date">
+    <column id="38" parent="14" name="postDate">
       <Position>3</Position>
       <DataType>datetime|0</DataType>
     </column>
-    <column id="59" parent="16" name="latitute">
+    <column id="39" parent="14" name="userId">
       <Position>4</Position>
-      <DataType>double|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="60" parent="16" name="likes">
-      <Position>5</Position>
-      <DataType>bigint(20)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="61" parent="16" name="longitude">
-      <Position>6</Position>
-      <DataType>double|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <column id="62" parent="16" name="title">
-      <Position>7</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="63" parent="16" name="userid">
-      <Position>8</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="64" parent="16" name="vedio">
-      <Position>9</Position>
-      <DataType>varchar(255)|0</DataType>
-    </column>
-    <column id="65" parent="16" name="views">
-      <Position>10</Position>
-      <DataType>bigint(20)|0</DataType>
-      <NotNull>1</NotNull>
-    </column>
-    <key id="66" parent="16" name="PRIMARY">
+    <key id="40" parent="14" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="67" parent="17" name="tg_post_id">
+    <column id="41" parent="15" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="42" parent="15" name="imageId">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="43" parent="15" name="postId">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="44" parent="15" name="postDate">
+      <Position>4</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="45" parent="15" name="userId">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <key id="46" parent="15" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="47" parent="16" name="id">
+      <Position>1</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="48" parent="16" name="classId">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="49" parent="16" name="modelUrl">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="50" parent="16" name="name">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="51" parent="16" name="vedioUrl">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="52" parent="16" name="webUrl">
+      <Position>6</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <key id="53" parent="16" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="54" parent="17" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="55" parent="17" name="addDate">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="56" parent="17" name="postId">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="57" parent="17" name="userId">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <key id="58" parent="17" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="59" parent="18" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="68" parent="17" name="imageInforSet_id">
+    <column id="60" parent="18" name="date">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="61" parent="18" name="postId">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="62" parent="18" name="userId">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="63" parent="18" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="64" parent="19" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="65" parent="19" name="coordinate">
+      <Position>2</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="66" parent="19" name="descrition">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="67" parent="19" name="imageId">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="68" parent="19" name="location">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="69" parent="19" name="postDate">
+      <Position>6</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="70" parent="19" name="userId">
+      <Position>7</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="71" parent="19" name="pHash">
+      <Position>8</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="72" parent="19" name="sift">
+      <Position>9</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="73" parent="19" name="classId">
+      <Position>10</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <index id="74" parent="19" name="UK_qojuuqp0g20x284yox79esdeq">
+      <ColNames>imageId</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="75" parent="19" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="76" parent="19" name="UK_qojuuqp0g20x284yox79esdeq">
+      <ColNames>imageId</ColNames>
+      <UnderlyingIndexName>UK_qojuuqp0g20x284yox79esdeq</UnderlyingIndexName>
+    </key>
+    <column id="77" parent="20" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="78" parent="20" name="addDate">
+      <Position>2</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="79" parent="20" name="postId">
+      <Position>3</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="80" parent="20" name="userId">
+      <Position>4</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <key id="81" parent="20" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="82" parent="21" name="id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="83" parent="21" name="collection">
+      <Position>2</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="84" parent="21" name="date">
+      <Position>3</Position>
+      <DataType>datetime|0</DataType>
+    </column>
+    <column id="85" parent="21" name="latitute">
+      <Position>4</Position>
+      <DataType>double|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="86" parent="21" name="likes">
+      <Position>5</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="87" parent="21" name="longitude">
+      <Position>6</Position>
+      <DataType>double|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="88" parent="21" name="title">
+      <Position>7</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="89" parent="21" name="userid">
+      <Position>8</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="90" parent="21" name="vedio">
+      <Position>9</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="91" parent="21" name="views">
+      <Position>10</Position>
+      <DataType>bigint(20)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="92" parent="21" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>id</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="93" parent="22" name="tg_post_id">
+      <Position>1</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="94" parent="22" name="imageInforSet_id">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <index id="69" parent="17" name="UK_m9135h34l860v0q0q1p7t20t7">
+    <index id="95" parent="22" name="UK_m9135h34l860v0q0q1p7t20t7">
       <ColNames>imageInforSet_id</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="70" parent="17" name="PRIMARY">
+    <key id="96" parent="22" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>tg_post_id
 imageInforSet_id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="71" parent="17" name="UK_m9135h34l860v0q0q1p7t20t7">
+    <key id="97" parent="22" name="UK_m9135h34l860v0q0q1p7t20t7">
       <ColNames>imageInforSet_id</ColNames>
       <UnderlyingIndexName>UK_m9135h34l860v0q0q1p7t20t7</UnderlyingIndexName>
     </key>
-    <foreign-key id="72" parent="17" name="FK_s4sj1gmwq49vvqbra3u32ru1m">
+    <foreign-key id="98" parent="22" name="FK_s4sj1gmwq49vvqbra3u32ru1m">
       <ColNames>tg_post_id</ColNames>
       <RefSchemaName>tourguide</RefSchemaName>
       <RefTableName>tg_post</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <foreign-key id="73" parent="17" name="FK_m9135h34l860v0q0q1p7t20t7">
+    <foreign-key id="99" parent="22" name="FK_m9135h34l860v0q0q1p7t20t7">
       <ColNames>imageInforSet_id</ColNames>
       <RefSchemaName>tourguide</RefSchemaName>
       <RefTableName>tg_imageInfor</RefTableName>
       <RefColNames>id</RefColNames>
     </foreign-key>
-    <column id="74" parent="18" name="id">
+    <column id="100" parent="23" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="75" parent="18" name="path">
+    <column id="101" parent="23" name="path">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="76" parent="18" name="role">
+    <column id="102" parent="23" name="role">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <key id="77" parent="18" name="PRIMARY">
+    <key id="103" parent="23" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="78" parent="19" name="id">
+    <column id="104" parent="24" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="79" parent="19" name="descrition">
+    <column id="105" parent="24" name="descrition">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="80" parent="19" name="location">
+    <column id="106" parent="24" name="location">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="81" parent="19" name="sceneryId">
+    <column id="107" parent="24" name="sceneryId">
       <Position>4</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <key id="82" parent="19" name="PRIMARY">
+    <column id="108" parent="24" name="baikeHref">
+      <Position>5</Position>
+      <DataType>longtext|0</DataType>
+    </column>
+    <column id="109" parent="24" name="imageHref">
+      <Position>6</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="110" parent="24" name="vedioHref">
+      <Position>7</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="111" parent="24" name="name">
+      <Position>8</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="112" parent="24" name="image">
+      <Position>9</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <column id="113" parent="24" name="classify">
+      <Position>10</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="114" parent="24" name="latitude">
+      <Position>11</Position>
+      <DataType>float|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="115" parent="24" name="longitude">
+      <Position>12</Position>
+      <DataType>float|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="116" parent="24" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="83" parent="20" name="id">
+    <column id="117" parent="25" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="84" parent="20" name="date">
+    <column id="118" parent="25" name="date">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="85" parent="20" name="imageInforId">
+    <column id="119" parent="25" name="imageInforId">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="86" parent="20" name="stepsId">
+    <column id="120" parent="25" name="stepsId">
       <Position>4</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <key id="87" parent="20" name="PRIMARY">
+    <key id="121" parent="25" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="88" parent="21" name="id">
+    <column id="122" parent="26" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="89" parent="21" name="date">
+    <column id="123" parent="26" name="date">
       <Position>2</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="90" parent="21" name="userId">
+    <column id="124" parent="26" name="userId">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="91" parent="21" name="latitute">
+    <column id="125" parent="26" name="latitute">
       <Position>4</Position>
       <DataType>double|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="92" parent="21" name="longitude">
+    <column id="126" parent="26" name="longitude">
       <Position>5</Position>
       <DataType>double|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <key id="93" parent="21" name="PRIMARY">
+    <key id="127" parent="26" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="94" parent="22" name="id">
+    <column id="128" parent="27" name="id">
       <Position>1</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="95" parent="22" name="birthDate">
+    <column id="129" parent="27" name="birthDate">
       <Position>2</Position>
       <DataType>datetime|0</DataType>
     </column>
-    <column id="96" parent="22" name="email">
+    <column id="130" parent="27" name="email">
       <Position>3</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="97" parent="22" name="expiredDate">
+    <column id="131" parent="27" name="expiredDate">
       <Position>4</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="98" parent="22" name="gender">
+    <column id="132" parent="27" name="gender">
       <Position>5</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="99" parent="22" name="mobile">
+    <column id="133" parent="27" name="mobile">
       <Position>6</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="100" parent="22" name="nativePlace">
+    <column id="134" parent="27" name="nativePlace">
       <Position>7</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="101" parent="22" name="registDate">
+    <column id="135" parent="27" name="registDate">
       <Position>8</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="102" parent="22" name="salt">
+    <column id="136" parent="27" name="salt">
       <Position>9</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="103" parent="22" name="securityToken">
+    <column id="137" parent="27" name="securityToken">
       <Position>10</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="104" parent="22" name="userId">
+    <column id="138" parent="27" name="userId">
       <Position>11</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="105" parent="22" name="userImage">
+    <column id="139" parent="27" name="userImage">
       <Position>12</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="106" parent="22" name="userName">
+    <column id="140" parent="27" name="userName">
       <Position>13</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="107" parent="22" name="role">
+    <column id="141" parent="27" name="role">
       <Position>14</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <index id="108" parent="22" name="UK_qumd3rydv7m9s2uwgms5e3qlt">
+    <index id="142" parent="27" name="UK_qumd3rydv7m9s2uwgms5e3qlt">
       <ColNames>userId</ColNames>
       <Unique>1</Unique>
     </index>
-    <key id="109" parent="22" name="PRIMARY">
+    <key id="143" parent="27" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="110" parent="22" name="UK_qumd3rydv7m9s2uwgms5e3qlt">
+    <key id="144" parent="27" name="UK_qumd3rydv7m9s2uwgms5e3qlt">
       <ColNames>userId</ColNames>
       <UnderlyingIndexName>UK_qumd3rydv7m9s2uwgms5e3qlt</UnderlyingIndexName>
     </key>
-    <column id="111" parent="23" name="id">
+    <column id="145" parent="28" name="id">
       <Position>1</Position>
       <DataType>bigint(20)|0</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
     </column>
-    <column id="112" parent="23" name="code">
+    <column id="146" parent="28" name="code">
       <Position>2</Position>
       <DataType>int(11)|0</DataType>
       <NotNull>1</NotNull>
     </column>
-    <column id="113" parent="23" name="expiredDate">
+    <column id="147" parent="28" name="expiredDate">
       <Position>3</Position>
       <DataType>datetime|0</DataType>
     </column>
-    <column id="114" parent="23" name="mobile">
+    <column id="148" parent="28" name="mobile">
       <Position>4</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <column id="115" parent="23" name="sendDate">
+    <column id="149" parent="28" name="sendDate">
       <Position>5</Position>
       <DataType>datetime|0</DataType>
     </column>
-    <column id="116" parent="23" name="verifycode">
+    <column id="150" parent="28" name="verifycode">
       <Position>6</Position>
       <DataType>varchar(255)|0</DataType>
     </column>
-    <key id="117" parent="23" name="PRIMARY">
+    <key id="151" parent="28" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>

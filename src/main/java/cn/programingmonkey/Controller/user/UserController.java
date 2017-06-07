@@ -45,8 +45,8 @@ public class UserController  extends BaseController {
      */
     @RequestMapping(path = UrlConstant.USER_URL_GET_PROFILE,method = RequestMethod.GET)
     @ResponseBody
-    public Success getUserProfile(@RequestHeader(REQUEST_HEADER_USERID) String userId)
-    {
+    public Success getUserProfile(@RequestHeader(REQUEST_HEADER_USERID) String userId) {
+
         Success success = new Success(OK_CODE,"信息获取成功");
         success.setModel(userService.findUserById(userId));
         return success;
@@ -55,7 +55,7 @@ public class UserController  extends BaseController {
 
 
     /**
-     * 获取用户的头像
+     * 修改用户的头像
      * @param userid
      * @param image
      * @return
@@ -185,7 +185,7 @@ public class UserController  extends BaseController {
                                              @PathVariable(REQUEST_PARAM_MOBILE)   final String mobile) throws ClientException {
 
         // 绑定的新手机和已经绑定的手机号一致
-       if(userService.findUserById(userId)!=null && userService.findUserById(userId).getMobile() == mobile)
+       if(userService.findUserById(userId)!=null && userService.findUserById(userId).getMobile().equals(mobile))
            throw new InvalidException(INVALID_EXCEPTION_TYPE.INVALID_EXCEPTION_MOBILE_BIND);
 
         //无效的手机号

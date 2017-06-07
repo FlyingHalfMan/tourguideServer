@@ -61,7 +61,7 @@ public class ResetPwdService {
                                                               verifycode,
                                                               VERIFYCODE_TYPE.VERIFYCODE_TYPE_RESETPWD.getCode());
         verifyCodeDao.add(verifyCodeTable);
-        SMSService.sendResetPwdVerifyCode(mobile,verifycode);
+       // SMSService.sendResetPwdVerifyCode(mobile,verifycode);
     }
 
     /**
@@ -85,16 +85,15 @@ public class ResetPwdService {
         if (!table.getVerifycode().equals(verifycodeBean.getVerifycode()))
             throw new ResetPwdException(RESET_PWD_EXCEPTION_TYPE.RESET_PWD_EXCEPTION_INVALID_VEIFYCODE);
 
-        String authorityCode = EncryptUtil.randomString();
+//        String authorityCode = EncryptUtil.randomString();
         UserTable userTable = userDao.findUserByUserMobile(verifycodeBean.getMobile());
-
-        AuthorityChangLog authorityChangLog = new AuthorityChangLog();
-        authorityChangLog.setUserId(userTable.getUserId());
-        authorityChangLog.setAuthorityId(authorityCode);
-        authorityChangLog.setExecuterId(userTable.getUserId());
-        authorityChangLog.setDate(Utils.getCurrentTime());
-        authorityChangLog.setOther("用户更新密码");
-
+//
+//        AuthorityChangLog authorityChangLog = new AuthorityChangLog();
+//        authorityChangLog.setUserId(userTable.getUserId());
+//        authorityChangLog.setAuthorityId(authorityCode);
+//        authorityChangLog.setExecuterId(userTable.getUserId());
+//        authorityChangLog.setDate(Utils.getCurrentTime());
+//        authorityChangLog.setOther("用户更新密码");
 
         return new Success(1,"验证成功",userTable.getSalt());
     }
@@ -123,7 +122,7 @@ public class ResetPwdService {
         if (!newPwd.equals(newPwds))
             throw new PasswordException(PASSWORD_EXCEPTION_TYPE.PASSWORD_EXCEPTION_DIFFERENT);
         UserTable table = userDao.findUserByUserMobile(resetPwdBean.getMobile());
-        table.setSecurityToken(newPwd);
+        table.setSecurityToken(EncryptUtil.encrypt(table.getSalt(),newPwd));
         userDao.update(table);
     }
 }

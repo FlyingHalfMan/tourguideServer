@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class BaseController {
 
 
+
+
     // 内部异常
     @ExceptionHandler(InternalServerErrorException.class)
     public ResponseEntity<Error> serverError(InternalServerErrorException e){
@@ -31,15 +33,12 @@ public class BaseController {
         return new ResponseEntity<Error>(error,HttpStatus.BAD_REQUEST);
     }
 
-
     @ExceptionHandler(NullPointerException.class)
     public ResponseEntity<Error> nullPointException(NullPointerException e){
 
         Error error = new Error( 500,""+e.getMessage());
         return new ResponseEntity<Error>(error,HttpStatus.SERVICE_UNAVAILABLE);
     }
-
-
 
     @ExceptionHandler(PostException.class)
     public ResponseEntity<Error> postException(PostException e){
@@ -97,7 +96,6 @@ public class BaseController {
         Error error = new Error( e.getCode(),""+e.getMsg());
         return new ResponseEntity<Error>(error,HttpStatus.BAD_REQUEST);
     }
-
 
 }
 

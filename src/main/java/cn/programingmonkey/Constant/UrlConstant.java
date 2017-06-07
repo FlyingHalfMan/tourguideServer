@@ -46,11 +46,9 @@ public class UrlConstant {
      *  *************************帖子URL**************************
      */
 
-    public static final String POST_URL_GET_POST_NEARBY             =   "post/location";
-    public static final String POST_URL_GET_POSTZ_HOT               =   "post/hot";
-    public static final String POST_URL_GET_POST_DATE               =   "post/date";
+    public static final String POST_URL_GET_POST                    =   "post";
     public static final String POST_URL_GET_POST_USER               =   "post/user/{userid}";
-    public static final String POST_URL_GET_POST_DETAIL             =   "post/{postid}";
+    public static final String POST_URL_GET_POST_DETAIL             =   "post/detail";
     public static final String POST_URL_GET_DELTET_POST             =   "post/delete/{postId}";
     public static final String POST_URL_LIKE_POST                   =   "post/like/{postId}";
     public static final String POST_URL_COLLECT_POST                =   "post/collection/{postId}";

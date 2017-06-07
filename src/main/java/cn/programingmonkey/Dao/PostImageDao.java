@@ -30,7 +30,7 @@ public class PostImageDao {
 
     public String findPostIdByImageId(String imageId){
 
-        String sql = "select p.postId from PostImage  as p where p.imageId =:imageId";
+        String sql = "select p.postId from PostImage  as p where p.imageId =:imageId ";
         Query query = entityManager.createQuery(sql).setParameter("imageId",imageId);
         return query.getResultList() == null  || query.getResultList().size() < 1 ?null : (String) query.getResultList().get(0);
     }
@@ -39,6 +39,7 @@ public class PostImageDao {
 
         String sql ="delete  from PostImage  as p  where p.postId = :postId";
         Query query = entityManager.createQuery(sql).setParameter("postId",postId);
+        query.executeUpdate();
     }
 
 }

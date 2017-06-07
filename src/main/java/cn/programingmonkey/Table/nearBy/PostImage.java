@@ -4,6 +4,7 @@ package cn.programingmonkey.Table.nearBy;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Created by cai on 2017/3/29.
@@ -17,6 +18,8 @@ public class PostImage {
     private int id;
     private String postId;
     private String imageId;
+    private String userId;
+    private Date   postDate;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,5 +45,21 @@ public class PostImage {
 
     public void setImageId(String imageId) {
         this.imageId = imageId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Date getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Date postDate) {
+        this.postDate = postDate;
     }
 }

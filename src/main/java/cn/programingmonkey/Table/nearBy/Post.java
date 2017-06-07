@@ -1,11 +1,9 @@
 package cn.programingmonkey.Table.nearBy;
 
-import cn.programingmonkey.Utils.Utils;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.annotations.*;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,7 +11,6 @@ import java.util.Map;
  */
 
 @Entity("post")
-
 @Indexes(
         @Index(value = "userid",fields = @Field("userid"))
 )
@@ -22,9 +19,9 @@ public class Post  {
     @Id
     private ObjectId id;
     private String                          userid;
+    private String                          userName;
+    private String                          userImage;
     private String                          title;                       // 文章的标题
-    private Double                          latitute;                    // 纬度
-    private Double                          longitude;                   // 经度
 
     private Long                            likes;                       // 点赞数量
     private Long                            collection;                  // 收藏数量
@@ -32,28 +29,22 @@ public class Post  {
     private Double                          hot;                         // 帖子的热度，由点赞量(0.3)和收藏量(0.5)和阅读量(.2)计算
     private String                          vedio;                       // 视频地址
     private Map<String,String>              images;                      // 图片地址
-    private String                          content;                     // 文字内容
     private Date                            date;                        // 发布时间
 
 
     public Post(){};
 
-    public Post(ObjectId id,
+    public Post(
                 String userid,
                 String title,
-                double latitute,
-                double longitude,
                 long likes,
                 long collection,
                 long views,
                 String vedio,
                 Date date) {
 
-        this.id = id;
         this.userid = userid;
         this.title = title;
-        this.latitute = latitute;
-        this.longitude = longitude;
         this.likes = likes;
         this.collection = collection;
         this.views = views;
@@ -86,21 +77,6 @@ public class Post  {
         this.title = title;
     }
 
-    public Double getLatitute() {
-        return latitute;
-    }
-
-    public void setLatitute(Double latitute) {
-        this.latitute = latitute;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
-    }
 
     public Long getLikes() {
         return likes;
@@ -142,13 +118,6 @@ public class Post  {
         this.images = images;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
     public Date getDate() {
         return date;
@@ -164,5 +133,21 @@ public class Post  {
 
     public void setHot(Double hot) {
         this.hot = hot;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
     }
 }

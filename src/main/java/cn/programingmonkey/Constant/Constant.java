@@ -33,6 +33,7 @@ public class Constant {
     public final static String PATH_PARAM_MOBILE            =   "mobile";
     public final static String PATH_PARAM_USERID            =   "userId";
     public final static String PATH_PARAM_POSTID            =   "postId";
+    public final static String PATH_PARAM_OPTION            =   "option";
 
 
     /**
@@ -56,4 +57,9 @@ public class Constant {
     public final static String REQUEST_PARAM_LATITUTE       =   "latitute";
     public final static String REQUEST_PARAM_OFFSET         =   "offset";
     public final static String REQUEST_PARAM_LIMIT          =   "limit";
+
+
+    public final static String IMAGE_SAVE_PATH_RIGION       =   "/resources/tourguide/images/origion/";
+    public final static String IMAGE_SAVE_PATH_VECTOR       =   "/resources/tourguide/images/vector/";
+    public final static String IMAGE_SAVE_PATH_GRAY         =   "/resources/tourguide/images/gray/";
 }

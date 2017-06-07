@@ -21,6 +21,7 @@ public class UploadImageBean implements Serializable {
     private String location;
     private Double longitute;
     private Double latitude;
+    private String sift;
 
 
 
@@ -56,5 +57,13 @@ public class UploadImageBean implements Serializable {
 
     public void setLatitude(Double latitude) {
         this.latitude = latitude;
+    }
+
+    public String getSift() {
+        return sift;
+    }
+
+    public void setSift(String sift) {
+        this.sift = sift;
     }
 }

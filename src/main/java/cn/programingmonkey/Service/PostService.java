@@ -37,6 +37,21 @@ public class PostService {
     private PostImageDao postImageDao;
 
 
+    public List<PostHomeBean> getPostsBySearchContentAndType(String search,int type,int offset,int limit){
+
+        List<PostHomeBean> postHomeBeans = null;
+        // 不使用分类搜索
+        if (type == -1){
+            postHomeBeans = paraseToPostHomeBean(postDao.searchPostsByContent(search,offset,limit));
+        }
+        else {
+           postHomeBeans = paraseToPostHomeBean(postDao.findPostByOption(offset,limit,type));
+        }
+        return postHomeBeans;
+    }
+
+
+
     /**
      *  添加一个新的post。
      *  post数据将被保存在mongo数据库中
@@ -44,12 +59,6 @@ public class PostService {
      */
     public void addPost(Post post) {
 
-       if (post.getContent() == null
-               || post.getContent().length() < 1
-               && post.getVedio() ==null
-               && post.getImages() == null ){
-           throw new PostException(POST_EXCEPTION_TYPE.POST_EXCEPTION_TYPE_INVALIDEPOST);
-       }
        if (post.getImages() !=null && post.getVedio() != null){
            throw new PostException(POST_EXCEPTION_TYPE.POST_EXCEPTION_TYPE_IMAGE_VEDIO_BOTH);
        }
@@ -83,6 +92,14 @@ public class PostService {
         postDao.delete(post);
         // 删除图片
         postImageDao.deleteByPostId(id);
+    }
+
+
+
+    public ArrayList<Boolean> postStatus(String postId,String userId){
+
+
+        return null;
     }
 
 
@@ -178,9 +195,9 @@ public class PostService {
      * @return
      */
 
-    public List<PostHomeBean> findPostByDate(int offset,int limit) {
+    public List<PostHomeBean> findPostByOption(int offset,int limit,int option) {
 
-        List<Post> posts = postDao.findByDate(offset,limit);
+        List<Post> posts = postDao.findPostByOption(offset,limit, option);
         // 查询的数据为null,抛出异常
         if (posts == null || posts.size() < 1)
             throw new PostException(POST_EXCEPTION_TYPE.POST_EXCEPTION_TYPE_DATABASE_NONE);
@@ -225,6 +242,8 @@ public class PostService {
         UserTable userTable = userDao.findUserByUserId(post.getUserid());
         return new PostHomeBean(post,userTable);
     }
+
+
 
     private PostBean parseToPostBean(Post post,UserTable userTable){
 

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * Created by cai on 30/01/2017.
  */
 @Controller
-public class loginController  extends BaseController{
+public class LoginController  extends BaseController{
 
     @Autowired
     private LoginService loginService;
@@ -32,7 +32,7 @@ public class loginController  extends BaseController{
     public Success getloginVerifycode(@PathVariable(Constant.REQUEST_PARAM_MOBILE) final String mobile) throws ClientException {
 
         loginService.getloginVerifycode(mobile);
-        return new Success(1,"验证码成功发送到"+mobile);
+        return new Success(200,"验证码成功发送到"+mobile);
     }
 
 
@@ -43,7 +43,7 @@ public class loginController  extends BaseController{
      */
     @RequestMapping(path = UrlConstant.Login_URL_Verify_Verifycode,method = RequestMethod.POST)
     @ResponseBody
-    public Success loginWithVerifyCode(@RequestBody loginVerifyCodeBean loginVerifyCodeBean) {
+    public Success loginWithVerifyCode(@RequestBody LoginVerifyCodeBean loginVerifyCodeBean) {
 
        SecurityToken securityToken =  loginService.loginWithVerifyCode(loginVerifyCodeBean.getMobile(),
                                                                       loginVerifyCodeBean.getVerifycode());
@@ -64,6 +64,7 @@ public class loginController  extends BaseController{
 
         SecurityToken token = loginService.loginWithPassword(loginPasswordBean.getMobile(),
                                                              loginPasswordBean.getPassword());
+
         return  new Success(200,"信息获取成功",token);
     }
 

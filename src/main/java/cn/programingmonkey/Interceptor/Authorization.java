@@ -34,7 +34,6 @@ class Authorization implements HandlerInterceptor {
        Date date = Utils.parseStringToDate(expiredDate,"yyyyMMddHHmmssSSS");
 
 
-
        //用户还没有登录
        if(userId == null || userId.length() <1 || token ==null || token.length() < 1)
            httpServletResponse.sendRedirect("/Exception/user");
@@ -46,9 +45,6 @@ class Authorization implements HandlerInterceptor {
             httpServletResponse.sendRedirect("/Exception/invalidid");
 
         // 获得访问该路径的权限
-
-
-
         else {
             int requestRole =  roleDao.findRoleByPath(requesetUri);
             if(userTable.getRole()  < requestRole)

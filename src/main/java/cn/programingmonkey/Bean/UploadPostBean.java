@@ -11,16 +11,15 @@ import java.util.Map;
  */
 public class UploadPostBean implements Serializable{
 
-    private List<Map<String,String>> images;
+    private Map<String,String> images;
     private String vedio;
-    private long  date;
-    private String conent;
+    private String title;
 
-    public List<Map<String,String>> getImages() {
+    public Map<String,String> getImages() {
         return images;
     }
 
-    public void setImages(List<Map<String,String>> images) {
+    public void setImages(Map<String,String> images) {
         this.images = images;
     }
 
@@ -32,19 +31,11 @@ public class UploadPostBean implements Serializable{
         this.vedio = vedio;
     }
 
-    public long getDate() {
-        return date;
+    public String getTitle() {
+        return title;
     }
 
-    public void setDate(long date) {
-        this.date = date;
-    }
-
-    public String getConent() {
-        return conent;
-    }
-
-    public void setConent(String conent) {
-        this.conent = conent;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

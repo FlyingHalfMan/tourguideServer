@@ -2,7 +2,6 @@ package cn.programingmonkey.Controller;
 
 import cn.programingmonkey.Bean.Error;
 import cn.programingmonkey.Exception.type.USER_EXCEPTION_TYPE;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;

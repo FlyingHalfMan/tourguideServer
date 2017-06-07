@@ -38,7 +38,15 @@ public class VerifyCodeDao {
     @Transactional
     public void add(VerifyCodeTable verifyCodeTable){
 
-        entityManager.persist(verifyCodeTable);
+        VerifyCodeTable table = findByMobile(verifyCodeTable.getMobile(),verifyCodeTable.getCode());
+        if (table != null) {
+            table.setVerifycode(verifyCodeTable.getVerifycode());
+            table.setExpiredDate(verifyCodeTable.getExpiredDate());
+            table.setSendDate(verifyCodeTable.getSendDate());
+            entityManager.merge(table);
+        }
+        else
+            entityManager.persist(verifyCodeTable);
     }
 
     @Transactional

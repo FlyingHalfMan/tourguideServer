@@ -23,6 +23,8 @@ public class ImageMangoDao {
 
     private static MongoClient mongoClient;
     private static MongoDatabase database;
+
+
     static {
         try {
             mongoClient = new MongoClient("localhost", 27017);
@@ -33,8 +35,7 @@ public class ImageMangoDao {
             }
 
 
-        }catch (Exception e)
-        {
+        }catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -55,8 +56,8 @@ public class ImageMangoDao {
      * @return
      */
 
-   public List<ImageInfor> findByUserId(String userId)
-   {
+   public List<ImageInfor> findByUserId(String userId) {
+
       return mongoTemplate.find(new Query(Criteria.where("userId").is(userId)),ImageInfor.class);
    }
 
@@ -64,7 +65,6 @@ public class ImageMangoDao {
 
        DBObject object = (DBObject) BeanUtils.cloneBean(imageInfor);
        mongoTemplate.insert(object);
-
     }
 
     public void update(ImageInfor imageInfor)

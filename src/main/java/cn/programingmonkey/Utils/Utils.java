@@ -111,7 +111,6 @@ public class Utils {
         return matcher.matches();
     }
 
-    private static double PI = 3.14159265;
     private static double EARTH_RADIUS = 6378137;
     private static double RAD = Math.PI / 180.0;
 
@@ -135,7 +134,7 @@ public class Utils {
         Double minLat = latitude - radiusLat;
         Double maxLat = latitude + radiusLat;
 
-        Double mpdLng = degree * Math.cos(latitude * (PI / 180));
+        Double mpdLng = degree * Math.cos(latitude * (Math.PI / 180));
         Double dpmLng = 1 / mpdLng;
         Double radiusLng = dpmLng * raidus;
         Double minLng = longitude - radiusLng;
@@ -159,4 +158,3 @@ public class Utils {
         return file;
     }
 }
-

@@ -1,17 +1,18 @@
 package cn.programingmonkey.Controller;
 
-import cn.programingmonkey.Bean.PostHomeBean;
-import cn.programingmonkey.Bean.Success;
-import cn.programingmonkey.Bean.UploadImageBean;
+import cn.programingmonkey.Bean.*;
 import cn.programingmonkey.Constant.UrlConstant;
-import cn.programingmonkey.Dao.ImageInforDao;
+import cn.programingmonkey.Dao.BaseDao;
+import cn.programingmonkey.Exception.InvalidException;
 import cn.programingmonkey.Exception.PostException;
 import cn.programingmonkey.Service.FramingService;
 import cn.programingmonkey.Service.ImageService;
 import cn.programingmonkey.Service.PostService;
+import cn.programingmonkey.Service.UserService;
 import cn.programingmonkey.Table.ImageInfor;
+import cn.programingmonkey.Table.UserTable;
 import cn.programingmonkey.Table.nearBy.Post;
-import cn.programingmonkey.Utils.Sift.MyPoint;
+import cn.programingmonkey.Utils.ImageUtils;
 import cn.programingmonkey.Utils.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,16 +21,20 @@ import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import cn.programingmonkey.Constant.Constant;
 
 /**
  * Created by cai on 2017/2/17.
  */
-
 @Controller
 public class PostController  extends BaseController{
 
@@ -39,25 +44,45 @@ public class PostController  extends BaseController{
     @Autowired
     private FramingService framingService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private BaseDao<ImageInfor> imageInforBaseDao;
+
 
     /**
-     * 根据距离来获取用户周边的信息
-     * @param latitute
-     * @param longitude
-     * @param offset
-     * @param limit
+     *  http://localhost:8080/tourguide/api/post?type=1
+     *  http://localhost:8080/tourguide/api/post?search=1212312312
      * @return
      */
+//    @RequestMapping(path = "post")
+//    @ResponseBody
+//    public Success getPostByType(@RequestParam(value = "type",defaultValue = "-1",required = false) final int type,
+//                                 @RequestParam(value = "search",required = false)final String content,
+//                                 @RequestParam("offset") final int offset,
+//                                 @RequestParam("limit") final  int limit){
+//
+//        if (type == -1)
+//            throw new InvalidException(404,"无效的查询类型");
+//        if (type == -1 && (content == null || content.length() < 1))
+//            throw new InvalidException(404,"无效的查询");
+//        if (type != -1 && content.length() > 1)
+//            throw new InvalidException(404,"暂不支持组合查询");
+//
+//        List<PostHomeBean> postHomeBeans =postService.getPostsBySearchContentAndType(content,type,offset,limit);
+//
+//        return  new Success(200,"数据获取成功",null,postHomeBeans);
+//    }
 
-    @RequestMapping(path = UrlConstant.POST_URL_GET_POST_NEARBY,method = RequestMethod.GET)
+    @RequestMapping("post/status")
     @ResponseBody
-    public Success getPostByLocation(@RequestParam(Constant.REQUEST_PARAM_LATITUTE)   final double latitute,
-                                     @RequestParam(Constant.REQUEST_PARAM_LOGITUDE)   final double longitude,
-                                     @RequestParam(Constant.REQUEST_PARAM_OFFSET)     final int    offset,
-                                     @RequestParam(Constant.REQUEST_PARAM_LIMIT)      final int    limit) {
+    public Success getPostStatus(@RequestParam("postId") final String postId,
+            @RequestHeader("userid") final String userId){
 
-       List<PostHomeBean>posts =  postService.findPostByLocation(latitute,longitude,5,offset,limit);
-        return new Success(200,"数据请求成功",posts);
+        postService.postStatus(postId,userId);
+
+        return new Success(200,"状态获取成功", postService.postStatus(postId,userId));
     }
 
 
@@ -69,34 +94,17 @@ public class PostController  extends BaseController{
      */
 
     /* 根据时间来获取动态*/
-    @RequestMapping(path = UrlConstant.POST_URL_GET_POST_DATE,method = RequestMethod.GET)
+    @RequestMapping(path = UrlConstant.POST_URL_GET_POST,method = RequestMethod.GET)
     @ResponseBody
     public Success getPostByDate(@RequestParam(Constant.REQUEST_PARAM_OFFSET) final int offset,
                                  @RequestParam(Constant.REQUEST_PARAM_LIMIT)  final int limit,
+                                 @RequestParam(Constant.PATH_PARAM_OPTION)    final int option,
                                  HttpServletRequest  request,
                                  HttpServletResponse response) {
 
-        List<PostHomeBean> posts =   postService.findPostByDate(offset,limit);
+        List<PostHomeBean> posts =   postService.findPostByOption(offset,limit,option);
         return new Success(200,"数据请求成功",posts);
     }
-
-    /**
-     * 根据热度还进行排序
-     * @param offset
-     * @param limit
-     * @return
-     */
-    @RequestMapping(path = UrlConstant.POST_URL_GET_POSTZ_HOT,method = RequestMethod.GET)
-    @ResponseBody
-    public Success getPostByHot(@RequestParam(Constant.REQUEST_PARAM_OFFSET) final int offset,
-                                @RequestParam(Constant.REQUEST_PARAM_LIMIT)  final int limit,
-                                HttpServletRequest  request,
-                                HttpServletResponse response) {
-
-        List<PostHomeBean> posts =   postService.findPostByHot(offset,limit);
-        return new Success(200,"数据请求成功",posts);
-    }
-
 
 
     /**
@@ -106,7 +114,7 @@ public class PostController  extends BaseController{
      */
     @RequestMapping(path =UrlConstant.POST_URL_GET_POST_DETAIL,method = RequestMethod.GET)
     @ResponseBody
-    public Success getPostByPostId(@PathVariable(Constant.PATH_PARAM_POSTID) final String postId,
+    public Success getPostByPostId(@RequestParam(Constant.PATH_PARAM_POSTID) final String postId,
                                    HttpServletRequest   request,
                                    HttpServletResponse  response) throws PostException {
 
@@ -189,33 +197,34 @@ public class PostController  extends BaseController{
 
     /**
      * 上传图片
-     * @param uploadImageBean
+     * @param file
      * @param userId
      * @return
      * @throws IOException
      */
     @RequestMapping(path = UrlConstant.POST_URL_UPLOAD_IMAGE,method = RequestMethod.POST)
     @ResponseBody
-    public Success uploadImage(@RequestBody UploadImageBean uploadImageBean,
-                               @RequestHeader(Constant.REQUEST_HEADER_USERID) final String userId) throws IOException {
+    public Success uploadImage(@RequestParam  CommonsMultipartFile file,
+                               @RequestHeader(Constant.REQUEST_HEADER_USERID) final String userId,
+                               HttpServletRequest request) throws IOException {
 
         //将图片重新命名，并上传到图片服务器
         String imageName = userId + Utils.getCurrentTimeStamp();
-        File file = ImageService.saveImage(uploadImageBean.getImage(),imageName);
+        File image = ImageService.saveImage(file,imageName);
 
-        // 计算图片的SIFT值
-        List<MyPoint> sift = ImageService.getSIFTCharacteristicValue(file);
+        ImageInfor imageInfor = new ImageInfor();
+        imageInfor.setImageId(imageName);
+        imageInfor.setPostDate(new Date());
+        imageInfor.setUserId(userId);
 
-        framingService.addImageInfor(imageName,
-                                        userId,
-                                          sift,
-                                   null,
-                 uploadImageBean.getLatitude(),
-                uploadImageBean.getLongitute(),
-                uploadImageBean.getLocation());
+        //ImageService.uploadImageToImageServer(image,imageName);
+
+        imageInforBaseDao.add(imageInfor);
 
         return new Success(200,"图片上传成功",imageName);
     }
+
+
 
 
     /**
@@ -234,20 +243,34 @@ public class PostController  extends BaseController{
 
     /**
      * 创建一个新的post
-     * @param post
      * @param userId
      */
     @RequestMapping(path = UrlConstant.POST_URL_CREATE,method = RequestMethod.POST)
     @ResponseBody
-    public Success createNewPost(@RequestBody               final Post post,
-                                 @RequestHeader("userid")   String userId,
-                                 HttpServletRequest         request,
-                                 HttpServletResponse        response) {
+    public Success createNewPost(
+            @RequestBody UploadPostBean postBean,
+            @RequestHeader(Constant.REQUEST_HEADER_USERID)   String userId,
+            HttpServletRequest         request,
+            HttpServletResponse        response) {
+
+        UserBean userBean =  userService.findUserById(userId);
+
+        Post post = new Post();
         post.setUserid(userId);
+        post.setTitle(postBean.getTitle());
+        post.setUserName(userBean.getUserName());
+        post.setUserImage(userBean.getUserImage());
+
+        if (postBean.getVedio() != null){
+            post.setVedio(postBean.getVedio());
+        }
+        else if(postBean.getImages() != null){
+            post.setImages(postBean.getImages());
+        }
         post.setViews(1L);
-        post.setCollection(1L);
         post.setLikes(1L);
-        post.setHot(post.getViews() * 0.2 + post.getLikes() * 0.3 + post.getCollection() * 0.5);
+        post.setCollection(1L);
+        post.setHot(post.getViews() * 0.2 + post.getLikes() * .3f + post.getCollection() * .5f);
         post.setDate(new Date());
         postService.addPost(post);
         return new Success(200,"发布成功");

@@ -10,6 +10,7 @@ import cn.programingmonkey.Table.nearBy.Post;
 import cn.programingmonkey.Utils.Utils;
 
 import javax.rmi.CORBA.Util;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.Set;
 /**
  * 帖子首页的数据
  */
-public class PostHomeBean {
+public class PostHomeBean  implements Serializable {
 
     private String postId;
     private String postImage;
@@ -37,6 +38,7 @@ public class PostHomeBean {
     private String userId;
     private String userName;
     private String userImage;
+    private Map<String,String> images;
 
     public PostHomeBean(){};
 
@@ -53,6 +55,7 @@ public class PostHomeBean {
         this.userImage = user.getUserImage();
         this.userName  = user.getUserName();
         Map<String,String> images = post.getImages();
+        this.images    = images;
         this.postImage = (String)images.keySet().toArray()[0];
         this.imageCount = images.size();
 
@@ -181,5 +184,13 @@ public class PostHomeBean {
 
     public void setUserImage(String userImage) {
         this.userImage = userImage;
+    }
+
+    public Map<String, String> getImages() {
+        return images;
+    }
+
+    public void setImages(Map<String, String> images) {
+        this.images = images;
     }
 }

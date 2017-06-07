@@ -7,7 +7,8 @@ public enum  PASSWORD_EXCEPTION_TYPE {
 
     PASSWORD_EXCEPTION_WRONG(-500,"账号密码不一致"),
     PASSWORD_EXCEPTION_INVALIDLENGTH(-501,"密码长度不足"),
-    PASSWORD_EXCEPTION_DIFFERENT(-502,"两次密码不一致");
+    PASSWORD_EXCEPTION_DIFFERENT(-502,"两次密码不一致"),
+    ASSWORD_EXCEPTION_PASSWORD_NOT_SET(-503,"你还没有设置密码，请先设置密码");
 
 
     private int code;

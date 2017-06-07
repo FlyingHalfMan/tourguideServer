@@ -15,23 +15,19 @@ import javax.persistence.Table;
 public class Scenery {
 
 
-    /*
-        是否存在图片集合
-        文字描述 或者 网站连接地址
-        AR 模型
-        视频地址
-
-
-     */
-
-
-    /*
-     */
-
     private int id;
+    private String name;
     private String sceneryId;
     private String descrition;
     private String location;
+    private String imageHref;
+    private String vedioHref;
+    private String baikeHref;
+    private String image;
+    private int classify;
+
+    private float latitude;
+    private float longitude;
 
 
     @Id
@@ -65,5 +61,69 @@ public class Scenery {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getImageHref() {
+        return imageHref;
+    }
+
+    public void setImageHref(String imageHref) {
+        this.imageHref = imageHref;
+    }
+
+    public String getVedioHref() {
+        return vedioHref;
+    }
+
+    public void setVedioHref(String vedioHref) {
+        this.vedioHref = vedioHref;
+    }
+
+    public String getBaikeHref() {
+        return baikeHref;
+    }
+
+    public void setBaikeHref(String baikeHref) {
+        this.baikeHref = baikeHref;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getClassify() {
+        return classify;
+    }
+
+    public void setClassify(int classify) {
+        this.classify = classify;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    public float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
     }
 }
